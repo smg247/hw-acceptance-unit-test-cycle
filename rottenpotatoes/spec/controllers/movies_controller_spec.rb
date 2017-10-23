@@ -30,5 +30,27 @@ describe MoviesController do
        end
 
     end
+    
+    describe "#destroy" do
+        it "should remove a movie" do
+            @movie_id = "1234"
+            @movie = double('fake_movie').as_null_object
+            expect(Movie).to receive(:find).with(@movie_id).and_return(@movie)
+            post :destroy, :id => @movie_id
+            
+            expect(response).to redirect_to(movies_path)
+        end
+    end
+    
+    describe "#create" do
+        it "should create a movie" do
+           @movie_hash =  {'title' => 'fake_movie'}
+           @movie = double('fake_movie').as_null_object
+           expect(Movie).to receive(:create!).with(@movie_hash).and_return(@movie)
+           post :create, :movie => @movie_hash
+           
+           expect(response).to redirect_to(movies_path)
+        end
+    end
 
 end
